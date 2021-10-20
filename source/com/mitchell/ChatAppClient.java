@@ -9,7 +9,9 @@ import java.awt.event.*;
 public class ChatAppClient {
 
         JTextArea incoming;
+        JTextArea prompt;
         JTextField outgoing;
+        JTextField userInput;
         BufferedReader reader;
         PrintWriter writer;
         Socket sock;
@@ -20,7 +22,23 @@ public class ChatAppClient {
         }
 
         public void go() {
-                JFrame frame = new JFrame("Mitchell's Chat App");
+                // set up GUI window for setting username
+                JFrame userNameFrame = new JFrame("input user name for chat");
+                JPanel userNamePanel = new JPanel();
+                prompt = new JTextArea(1,10);
+                prompt.setText("Input username:");
+                prompt.setEditable(false);
+                userInput = new JTextField(40);
+
+                userNamePanel.add(prompt);
+                userNamePanel.add(userInput);
+
+                userNameFrame.getContentPane().add(BorderLayout.CENTER, userNamePanel);
+                userNameFrame.setSize(200,200);
+                userNameFrame.setVisible(true);
+
+                //set up main GUI window
+                JFrame frame = new JFrame("Mitchell's Chat App bloopity blah");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 JPanel mainPanel = new JPanel();
                 mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -37,7 +55,8 @@ public class ChatAppClient {
                 mainPanel.add(qScroller);
                 mainPanel.add(outgoing);
                 mainPanel.add(sendButton);
-                setUpNetworking();
+
+                setUpNetworking(); // connect to server
 
                 Thread readerThread = new Thread(new IncomingReader());
                 readerThread.start();
@@ -45,6 +64,7 @@ public class ChatAppClient {
                 frame.getContentPane().add(BorderLayout.CENTER, mainPanel);
                 frame.setSize(800,500);
                 frame.setVisible(true);
+
         } // close go
 
         private void setUpNetworking() {
