@@ -16,6 +16,7 @@ public class ChatAppClient {
         BufferedReader reader;
         PrintWriter writer;
         Socket sock;
+        JFrame userNameFrame;
         String username;
 
         public static void main(String[] args) {
@@ -25,7 +26,7 @@ public class ChatAppClient {
 
         public void go() {
                 // set up GUI window for setting username
-                JFrame userNameFrame = new JFrame("Input user name for chat");
+                userNameFrame = new JFrame("Input user name for chat");
                 JPanel userNamePanel = new JPanel();
                 prompt = new JTextArea(1,10);
                 prompt.setText("Input username:");
@@ -94,6 +95,7 @@ public class ChatAppClient {
                                         username = userInput.getText();
                                         System.out.println(username);
                                         frame.setVisible(true);
+                                        userNameFrame.dispatchEvent(new WindowEvent(userNameFrame, WindowEvent.WINDOW_CLOSING));
 
                         } catch (NullPointerException ex) {
                                 System.out.println("username must provided");
