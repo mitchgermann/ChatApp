@@ -90,13 +90,13 @@ public class ChatAppClient {
         public class NameButtonListener implements ActionListener {
                 public void actionPerformed(ActionEvent ev) {
                         try {
-                                if (!userInput.getText().equals(""))
+                                if (!userInput.getText().equals("")) {
 
                                         username = userInput.getText();
                                         System.out.println(username);
                                         frame.setVisible(true);
                                         userNameFrame.dispatchEvent(new WindowEvent(userNameFrame, WindowEvent.WINDOW_CLOSING));
-
+                                }
                         } catch (NullPointerException ex) {
                                 System.out.println("username must provided");
                         }
