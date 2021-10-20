@@ -8,6 +8,7 @@ import java.awt.event.*;
 
 public class ChatAppClient {
 
+        JFrame frame;
         JTextArea incoming;
         JTextArea prompt;
         JTextField outgoing;
@@ -15,6 +16,7 @@ public class ChatAppClient {
         BufferedReader reader;
         PrintWriter writer;
         Socket sock;
+        String username;
 
         public static void main(String[] args) {
                 ChatAppClient client = new ChatAppClient();
@@ -23,22 +25,26 @@ public class ChatAppClient {
 
         public void go() {
                 // set up GUI window for setting username
-                JFrame userNameFrame = new JFrame("input user name for chat");
+                JFrame userNameFrame = new JFrame("Input user name for chat");
                 JPanel userNamePanel = new JPanel();
                 prompt = new JTextArea(1,10);
                 prompt.setText("Input username:");
                 prompt.setEditable(false);
                 userInput = new JTextField(40);
+                JButton nameInputButton = new JButton("Enter");
+                nameInputButton.addActionListener(new NameButtonListener());
 
                 userNamePanel.add(prompt);
                 userNamePanel.add(userInput);
+                userNamePanel.add(nameInputButton);
 
                 userNameFrame.getContentPane().add(BorderLayout.CENTER, userNamePanel);
                 userNameFrame.setSize(200,200);
                 userNameFrame.setVisible(true);
 
+
                 //set up main GUI window
-                JFrame frame = new JFrame("Mitchell's Chat App bloopity blah");
+                frame = new JFrame("Mitchell's Chat App");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 JPanel mainPanel = new JPanel();
                 mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -63,7 +69,7 @@ public class ChatAppClient {
 
                 frame.getContentPane().add(BorderLayout.CENTER, mainPanel);
                 frame.setSize(800,500);
-                frame.setVisible(true);
+                //frame.setVisible(true);
 
         } // close go
 
@@ -80,10 +86,25 @@ public class ChatAppClient {
                 }
         } // close setUpNetworking
 
+        public class NameButtonListener implements ActionListener {
+                public void actionPerformed(ActionEvent ev) {
+                        try {
+                                if (!userInput.getText().equals(""))
+
+                                        username = userInput.getText();
+                                        System.out.println(username);
+                                        frame.setVisible(true);
+
+                        } catch (NullPointerException ex) {
+                                System.out.println("username must provided");
+                        }
+
+                }
+        }
         public class SendButtonListener implements ActionListener {
                 public void actionPerformed(ActionEvent ev) {
                         try {
-                                writer.println(outgoing.getText());
+                                writer.println(username + ": " + outgoing.getText());
                                 writer.flush();
 
                         } catch(Exception ex) {
