@@ -27,6 +27,7 @@ public class ChatAppClient {
         public void go() {
                 // set up GUI window for setting username
                 userNameFrame = new JFrame("Input user name for chat");
+                userNameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 JPanel userNamePanel = new JPanel();
                 prompt = new JTextArea(1,10);
                 prompt.setText("Input username:");
